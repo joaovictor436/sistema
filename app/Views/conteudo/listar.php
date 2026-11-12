@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conteúdos</title>
+    <link rel="stylesheet" href="<?= base_url('assets/css/estilo.css') ?>">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="<?= site_url('admin') ?>" class="nav-link <?= url_is('admin') ? 'active' : '' ?>">Painel</a>
+ 
+    <a href="<?= site_url('conteudos') ?>" class="nav-link <?= url_is('conteudos') ? 'active' : '' ?>"> Conteúdos </a>
+    
+    <form action="<?= site_url('admin/sair') ?>" method="post" class="logout-form">
+     <?= csrf_field() ?>
+    <button type="submit" class="nav-link logout-button">
+    Sair
+      </button>
+    </form>
+ </nav>
+
+    <h1>Conteúdos cadastrados</h1>
+
+    <?php if ($mensagem = session()->getFlashdata('mensagem')): ?>
+        <p><?= esc($mensagem) ?></p>
+    <?php endif; ?>
+
+    <?php if (empty($conteudos)): ?>
+        <p>Nenhum conteúdo encontrado.</p>
+    <?php else: ?>
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Título</th>
+                    <th>Texto</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($conteudos as $item): ?>
+                    <tr>
+                        <td><?= esc($item['Id']) ?></td>
+                        <td><?= esc($item['Titulo']) ?></td>
+                        <td><?= nl2br(esc($item['Text'] ?? '')) ?></td>
+                        <td>
+                            <a href="<?= site_url('conteudo/editar/' . $item['Id']) ?>">
+                                Editar
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+
+</body>
+</html>
